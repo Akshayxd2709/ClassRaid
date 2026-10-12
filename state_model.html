@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slide-container { 
+      width: 1280px; min-height: 720px; 
+      background: #121418; color: #E2E8F0; padding: 48px;
+      display: flex; flex-direction: column;
+      font-family: 'Inter', sans-serif; position: relative;
+    }
+    .heading { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: #F5A623; font-weight: 700; text-transform: uppercase; margin-bottom: 32px; }
+    .content-zone { flex: 1; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; }
+    .pane { background: #1C1F26; border: 1px solid #334155; padding: 24px; }
+    .pane-title { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #F5A623; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+    .pane-title span { color: #94A3B8; font-size: 13px; text-transform: none; }
+    .code-block { background: #0F1115; padding: 16px; border: 1px solid #334155; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.5; color: #E2E8F0; }
+    .c-key { color: #F5A623; }
+    .c-val { color: #10B981; }
+    .c-typ { color: #94A3B8; }
+    .feature-list { display: grid; gap: 16px; margin-top: 12px; }
+    .feature { border-left: 2px solid #334155; padding-left: 16px; }
+    .feat-name { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #E2E8F0; }
+    .feat-desc { font-size: 15px; color: #94A3B8; line-height: 1.4; }
+    .motif { position: absolute; bottom: 48px; right: 48px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <h2 class="heading">Authoritative Room State</h2>
+    <div class="content-zone">
+      <div class="pane">
+        <div class="pane-title">State Interface <span>(JSON Mapping)</span></div>
+        <div class="code-block">
+          {<br>
+          &nbsp;&nbsp;<span class="c-key">"sessionId"</span>: <span class="c-val">"4821"</span>,<br>
+          &nbsp;&nbsp;<span class="c-key">"status"</span>: <span class="c-val">"live | lobby | ended"</span>,<br>
+          &nbsp;&nbsp;<span class="c-key">"boss"</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"hp"</span>: <span class="c-typ">Int</span>, <span class="c-key">"maxHp"</span>: <span class="c-typ">Int</span>, <span class="c-key">"name"</span>: <span class="c-typ">String</span><br>
+          &nbsp;&nbsp;},<br>
+          &nbsp;&nbsp;<span class="c-key">"round"</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"current"</span>: <span class="c-typ">Int</span>, <span class="c-key">"total"</span>: <span class="c-typ">Int</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"question"</span>: <span class="c-typ">QuestionObject</span><br>
+          &nbsp;&nbsp;},<br>
+          &nbsp;&nbsp;<span class="c-key">"students"</span>: [<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="c-key">"id"</span>: <span class="c-typ">UUID</span>, <span class="c-key">"name"</span>: <span class="c-typ">String</span>, <span class="c-key">"hp"</span>: <span class="c-typ">Int</span>, <span class="c-key">"score"</span>: <span class="c-typ">Int</span> }<br>
+          &nbsp;&nbsp;]<br>
+          }
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">Sync Principles</div>
+        <div class="feature-list">
+          <div class="feature">
+            <div class="feat-name">Eventual Consistency</div>
+            <div class="feat-desc">Clients reconcile local mock state with every <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">boss_update</span> emission.</div>
+          </div>
+          <div class="feature">
+            <div class="feat-name">Session Persistence</div>
+            <div class="feat-desc">Backend must allow UUID-based re-attachment for students who refresh.</div>
+          </div>
+          <div class="feature">
+            <div class="feat-name">Teacher Authority</div>
+            <div class="feat-desc">Only the teacher client can advance rounds or select topics.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="motif">[ 03 ]</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slide-container { 
+      width: 1280px; min-height: 720px; 
+      background: #121418; color: #E2E8F0; padding: 48px;
+      display: flex; flex-direction: column;
+      font-family: 'Inter', sans-serif; position: relative;
+    }
+    .heading { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: #F5A623; font-weight: 700; text-transform: uppercase; margin-bottom: 32px; }
+    .content-zone { flex: 1; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 24px; padding-top: 0; }
+    .pane { background: #1C1F26; border: 1px solid #334155; padding: 24px; display: flex; flex-direction: column; }
+    .pane-title { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #F5A623; text-transform: uppercase; margin-bottom: 16px; border-bottom: 1px solid #334155; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .pane-title span { color: #94A3B8; font-size: 14px; }
+    .diag-wrap { flex: 1; position: relative; border-left: 2px solid #F5A623; padding-left: 16px; }
+    .diag-box { margin-bottom: 12px; }
+    .diag-label { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .diag-text { font-size: 15px; color: #94A3B8; line-height: 1.4; }
+    .flow-step { display: flex; gap: 12px; margin-bottom: 8px; }
+    .flow-num { color: #F5A623; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; }
+    .code-inline { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: #262B34; padding: 2px 6px; color: #E2E8F0; }
+    .motif { position: absolute; bottom: 48px; right: 48px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <h2 class="heading">Runtime Architecture</h2>
+    <div class="content-zone">
+      <div class="pane">
+        <div class="pane-title">Clients <span>(Student/Teacher)</span></div>
+        <div class="diag-wrap">
+          <div class="diag-box">
+            <div class="diag-label">Socket.IO Client</div>
+            <div class="diag-text">Thin view layer. Holds local session state in <span class="code-inline">localStorage</span> for refresh recovery.</div>
+          </div>
+          <div class="diag-box">
+            <div class="diag-label">Event Hooks</div>
+            <div class="diag-text">UI emits action events and listens for authoritative state updates to trigger battle animations.</div>
+          </div>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">Communication Gateway <span>(Socket.IO)</span></div>
+        <div class="diag-wrap">
+          <div class="diag-box">
+            <div class="diag-label">Persistent Websocket</div>
+            <div class="diag-text">Manages 1:N connections per room code. Handles heartbeat and reconnection logic.</div>
+          </div>
+          <div class="diag-box">
+            <div class="diag-label">Room Logic</div>
+            <div class="diag-text">Partitions traffic by 4-digit code. Every student event is validated against the room owner (Teacher).</div>
+          </div>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">State Engine <span>(Backend API)</span></div>
+        <div class="diag-wrap">
+          <div class="diag-box">
+            <div class="diag-label">Authoritative State</div>
+            <div class="diag-text">Owns the truth: Boss HP, Question Queue, and Student Progress.</div>
+          </div>
+          <div class="diag-box">
+            <div class="diag-label">Logic Processor</div>
+            <div class="diag-text">Calculates damage from student answers, manages timers, and triggers peer-match pairing.</div>
+          </div>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">Sync Loop <span>(Fan-out)</span></div>
+        <div class="diag-wrap">
+          <div class="flow-step">
+            <div class="flow-num">01.</div><div class="diag-text">Action received from single client.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">02.</div><div class="diag-text">Server updates global state.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">03.</div><div class="diag-text">Server emits delta to ALL room members.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="motif">[ 02 ]</div>
+  </div>
+</body>
+</html>

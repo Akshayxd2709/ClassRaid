@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slide-container { 
+      width: 1280px; min-height: 720px; 
+      background: #121418; color: #E2E8F0; padding: 48px;
+      display: flex; flex-direction: column;
+      font-family: 'Inter', sans-serif; position: relative;
+    }
+    .heading { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: #F5A623; font-weight: 700; text-transform: uppercase; margin-bottom: 32px; }
+    .content-zone { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .flow-pane { display: flex; flex-direction: column; gap: 16px; }
+    .step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-num { flex: 0 0 32px; height: 32px; background: #1C1F26; border: 1px solid #334155; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; font-weight: 700; }
+    .step-body { flex: 1; padding-top: 4px; }
+    .step-title { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #E2E8F0; }
+    .step-desc { font-size: 15px; color: #94A3B8; line-height: 1.4; }
+    .visual-pane { background: #1C1F26; border: 1px solid #334155; padding: 32px; position: relative; }
+    .v-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; text-transform: uppercase; margin-bottom: 24px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+    .seq-line { border-left: 2px dashed #334155; margin-left: 16px; padding-left: 24px; position: relative; }
+    .seq-node { margin-bottom: 28px; position: relative; }
+    .seq-node::before { content: ''; position: absolute; left: -29px; top: 6px; width: 8px; height: 8px; background: #334155; border: 2px solid #121418; }
+    .seq-node.active::before { background: #F5A623; box-shadow: 0 0 8px rgba(245, 166, 35, 0.4); }
+    .seq-node span { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #94A3B8; display: block; }
+    .seq-node strong { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #E2E8F0; }
+    .motif { position: absolute; bottom: 48px; right: 48px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <h2 class="heading">Answer-to-Damage Flow</h2>
+    <div class="content-zone">
+      <div class="flow-pane">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <div class="step-title">Validation</div>
+            <div class="step-desc">Server receives <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">answer</span> event, checks against Room Key and Topic.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <div class="step-title">Calculation</div>
+            <div class="step-desc">Correct answer triggers <span style="color:#10B981">boss-hit</span> logic (-12 HP). Wrong answer triggers <span style="color:#EF4444">player-recoil</span> (-20 HP).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <div class="step-title">State Broadcast</div>
+            <div class="step-desc">Server emits <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">boss_update</span> or <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">hp_update</span> to all room members.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <div class="step-title">Animation Trigger</div>
+            <div class="step-desc">Frontend receives update and calls <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">ClassRaidBattle.playHit()</span> or <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">playMiss()</span>.</div>
+          </div>
+        </div>
+      </div>
+      <div class="visual-pane">
+        <div class="v-title">Sequence Diagram</div>
+        <div class="seq-line">
+          <div class="seq-node"><span>Student</span><strong>emit("answer", {idx:0})</strong></div>
+          <div class="seq-node active"><span>Server</span><strong>validate(idx) -> bossHp -= 12</strong></div>
+          <div class="seq-node active"><span>Server</span><strong>broadcast("boss_update", {nextHp:60})</strong></div>
+          <div class="seq-node"><span>All Clients</span><strong>playHit(12)</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="motif">[ 05 ]</div>
+  </div>
+</body>
+</html>

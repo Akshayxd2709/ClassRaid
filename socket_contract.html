@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slide-container { 
+      width: 1280px; min-height: 720px; 
+      background: #121418; color: #E2E8F0; padding: 48px;
+      display: flex; flex-direction: column;
+      font-family: 'Inter', sans-serif; position: relative;
+    }
+    .heading { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: #F5A623; font-weight: 700; text-transform: uppercase; margin-bottom: 24px; }
+    .content-zone { flex: 1; display: flex; flex-direction: column; }
+    .contract-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .contract-table th { background: #1C1F26; text-align: left; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #94A3B8; border-bottom: 1px solid #334155; text-transform: uppercase; }
+    .contract-table td { padding: 14px 16px; border-bottom: 1px solid #334155; font-size: 15px; vertical-align: top; }
+    .dir { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 900; padding: 2px 6px; border-radius: 2px; }
+    .dir.in { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+    .dir.out { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+    .ev-name { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #F5A623; font-weight: 700; }
+    .code { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #94A3B8; white-space: pre-wrap; }
+    .motif { position: absolute; bottom: 48px; right: 48px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <h2 class="heading">Socket Event Contract</h2>
+    <div class="content-zone">
+      <table class="contract-table">
+        <thead>
+          <tr>
+            <th style="width: 180px;">Event</th>
+            <th style="width: 100px;">Dir</th>
+            <th style="width: 380px;">Payload</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ev-name">join</span></td>
+            <td><span class="dir out">OUT</span></td>
+            <td><span class="code">{ code: "4821", name: "Priya" }</span></td>
+            <td>Sent by student to join a session. Reconnect uses same ID.</td>
+          </tr>
+          <tr>
+            <td><span class="ev-name">start_round</span></td>
+            <td><span class="dir in">IN</span></td>
+            <td><span class="code">{ topicId: "helmets", round: 1 }</span></td>
+            <td>Broadcast to students to trigger UI battle entry.</td>
+          </tr>
+          <tr>
+            <td><span class="ev-name">answer</span></td>
+            <td><span class="dir out">OUT</span></td>
+            <td><span class="code">{ questionId: "h1", index: 0 }</span></td>
+            <td>Student submits choice. Server validates and updates room state.</td>
+          </tr>
+          <tr>
+            <td><span class="ev-name">boss_update</span></td>
+            <td><span class="dir in">IN</span></td>
+            <td><span class="code">{ nextHp: 60, damage: 12, from: "Priya" }</span></td>
+            <td>Syncs damage to all screens. Triggers battle animations.</td>
+          </tr>
+          <tr>
+            <td><span class="ev-name">peer_match</span></td>
+            <td><span class="dir in">IN</span></td>
+            <td><span class="code">{ helper: "Ravi", student: "Priya", topic: ".." }</span></td>
+            <td>Pairs students based on heatmap misses. Triggers card overlay.</td>
+          </tr>
+          <tr>
+            <td><span class="ev-name">round_end</span></td>
+            <td><span class="dir in">IN</span></td>
+            <td><span class="code">{ result: "victory", accuracy: 78 }</span></td>
+            <td>Final summary state for the current battle topic.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="motif">[ 04 ]</div>
+  </div>
+</body>
+</html>

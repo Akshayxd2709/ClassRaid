@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slide-container { 
+      width: 1280px; min-height: 720px; 
+      background: #121418; color: #E2E8F0; padding: 48px;
+      display: flex; flex-direction: column;
+      font-family: 'Inter', sans-serif; position: relative;
+    }
+    .heading { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: #F5A623; font-weight: 700; text-transform: uppercase; margin-bottom: 32px; }
+    .content-zone { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .pane { background: #1C1F26; border: 1px solid #334155; padding: 24px; }
+    .pane-title { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #F5A623; text-transform: uppercase; margin-bottom: 20px; }
+    .comp-list { display: grid; gap: 20px; }
+    .comp-item { display: flex; gap: 16px; align-items: flex-start; }
+    .comp-tag { flex: 0 0 72px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 900; color: #121418; background: #94A3B8; text-align: center; padding: 2px 0; border-radius: 2px; text-transform: uppercase; }
+    .comp-tag.prod { background: #F5A623; }
+    .comp-body { flex: 1; padding-top: 2px; }
+    .comp-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #E2E8F0; margin-bottom: 4px; }
+    .comp-desc { font-size: 14px; color: #94A3B8; line-height: 1.4; }
+    .motif { position: absolute; bottom: 48px; right: 48px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #F5A623; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <h2 class="heading">Demo Mode & Reconnect</h2>
+    <div class="content-zone">
+      <div class="pane">
+        <div class="pane-title">Local Mock Behavior</div>
+        <div class="comp-list">
+          <div class="comp-item">
+            <div class="comp-tag">MOCK</div>
+            <div class="comp-body">
+              <div class="comp-title">Local Timer</div>
+              <div class="comp-desc">Uses <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">setInterval</span> in <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">student.html</span> for the 20s countdown.</div>
+            </div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-tag">MOCK</div>
+            <div class="comp-body">
+              <div class="comp-title">Demo Loop</div>
+              <div class="comp-desc">Teacher console triggers <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">nextQuestion(true)</span> to simulate damage cycles.</div>
+            </div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-tag">MOCK</div>
+            <div class="comp-body">
+              <div class="comp-title">localStorage</div>
+              <div class="comp-desc">Stores name/code/index/hp to allow a re-join on page refresh.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">Production Mapping</div>
+        <div class="comp-list">
+          <div class="comp-item">
+            <div class="comp-tag prod">PROD</div>
+            <div class="comp-body">
+              <div class="comp-title">Authoritative Timer</div>
+              <div class="comp-desc">Server broadcast starts the timer; server broadcast ends the round. Prevents cheat-sync issues.</div>
+            </div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-tag prod">PROD</div>
+            <div class="comp-body">
+              <div class="comp-title">Real Rejoin</div>
+              <div class="comp-desc">Client emits <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">join</span> with <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">reconnect: true</span>. Server restores their specific state.</div>
+            </div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-tag prod">PROD</div>
+            <div class="comp-body">
+              <div class="comp-title">Auth Token</div>
+              <div class="comp-desc">Replace simple <span class="code-inline" style="background:#262B34;padding:2px 4px;font-size:12px;font-family:monospace">playerName</span> with a secure JWT or persistent player ID in the Socket header.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="motif">[ 06 ]</div>
+  </div>
+</body>
+</html>
